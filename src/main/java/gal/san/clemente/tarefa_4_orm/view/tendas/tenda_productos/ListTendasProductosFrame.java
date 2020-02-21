@@ -1,0 +1,293 @@
+package gal.san.clemente.tarefa_4_orm.view.tendas.tenda_productos;
+
+import com.google.gson.Gson;
+import gal.san.clemente.tarefa_4_orm.exception.ModelException;
+import gal.san.clemente.tarefa_4_orm.model.Producto;
+import gal.san.clemente.tarefa_4_orm.model.Tenda;
+import gal.san.clemente.tarefa_4_orm.model.TendaProducto;
+import gal.san.clemente.tarefa_4_orm.view.converter.ProductosComboModel;
+import gal.san.clemente.tarefa_4_orm.view.converter.TendaProductoTableModel;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.swing.JOptionPane;
+import gal.san.clemente.tarefa_4_orm.model.dao.IDAOManagerDB;
+import gal.san.clemente.tarefa_4_orm.model.dao.utils.FileUtils;
+import gal.san.clemente.tarefa_4_orm.model.dao.utils.JsonUtils;
+import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.List;
+
+public class ListTendasProductosFrame extends javax.swing.JFrame {
+    
+    private IDAOManagerDB manager;
+    
+    private Tenda tenda;
+    
+    private TendaProductoTableModel model;
+    
+    public ListTendasProductosFrame(IDAOManagerDB manager, Tenda tenda) throws ModelException {
+        initComponents();
+        this.manager = manager;
+        this.tenda = tenda;
+        this.model = new TendaProductoTableModel(manager.getTendaProductoDAO(), tenda);
+        obtenerDatos();
+        this.tablaTendaProductos.setModel(model);
+
+        this.detalle.setModel(new ProductosComboModel(manager.getProductoDAO()));
+        
+        //selección de filas
+        this.tablaTendaProductos.getSelectionModel().addListSelectionListener(e -> {
+            boolean seleccionValida = (tablaTendaProductos.getSelectedRow() != -1);
+            botonEditarProductoTenda.setEnabled(seleccionValida);
+            botonEliminarProductoTenda.setEnabled(seleccionValida);
+        });
+    }
+    
+    final void obtenerDatos() throws ModelException {
+        registrosTendas.setText("Actualizando datos ...");
+        detalle.loadData(tenda);
+        model.updateModelTenda();
+        registrosTendas.setText(model.getRowCount() + " registros productos de tenda");
+        datosTenda.setText("Tenda: " + tenda.getNome() + ", Provincia: " + tenda.getProvincia() + ", Cidade: " + tenda.getCidade());
+    }
+
+    @SuppressWarnings("unchecked")
+    // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
+    private void initComponents() {
+
+        menuTendas = new javax.swing.JToolBar();
+        botonCrearProdutoTenda = new javax.swing.JButton();
+        jSeparator1 = new javax.swing.JToolBar.Separator();
+        botonEditarProductoTenda = new javax.swing.JButton();
+        botonEliminarProductoTenda = new javax.swing.JButton();
+        jSeparator2 = new javax.swing.JToolBar.Separator();
+        botonGuardar = new javax.swing.JButton();
+        botonCancelar = new javax.swing.JButton();
+        informeProductosButton = new javax.swing.JButton();
+        jPanel1 = new javax.swing.JPanel();
+        jScrollPane1 = new javax.swing.JScrollPane();
+        tablaTendaProductos = new javax.swing.JTable();
+        registrosTendas = new javax.swing.JLabel();
+        datosTenda = new javax.swing.JLabel();
+        detalle = new gal.san.clemente.tarefa_4_orm.view.tendas.tenda_productos.DetalleTendaProductoPanel();
+
+        setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
+        setTitle("Gestión Tendas");
+
+        menuTendas.setRollover(true);
+
+        botonCrearProdutoTenda.setText("Alta Producto Tenda");
+        botonCrearProdutoTenda.setFocusable(false);
+        botonCrearProdutoTenda.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+        botonCrearProdutoTenda.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
+        botonCrearProdutoTenda.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                botonCrearProdutoTendaActionPerformed(evt);
+            }
+        });
+        menuTendas.add(botonCrearProdutoTenda);
+        menuTendas.add(jSeparator1);
+
+        botonEditarProductoTenda.setText("Editar Producto Tenda");
+        botonEditarProductoTenda.setEnabled(false);
+        botonEditarProductoTenda.setFocusable(false);
+        botonEditarProductoTenda.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+        botonEditarProductoTenda.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
+        botonEditarProductoTenda.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                botonEditarProductoTendaActionPerformed(evt);
+            }
+        });
+        menuTendas.add(botonEditarProductoTenda);
+
+        botonEliminarProductoTenda.setText("Borrar Producto Tenda");
+        botonEliminarProductoTenda.setEnabled(false);
+        botonEliminarProductoTenda.setFocusable(false);
+        botonEliminarProductoTenda.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+        botonEliminarProductoTenda.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
+        botonEliminarProductoTenda.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                botonEliminarProductoTendaActionPerformed(evt);
+            }
+        });
+        menuTendas.add(botonEliminarProductoTenda);
+        menuTendas.add(jSeparator2);
+
+        botonGuardar.setText("Guardar");
+        botonGuardar.setEnabled(false);
+        botonGuardar.setFocusable(false);
+        botonGuardar.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+        botonGuardar.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
+        botonGuardar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                botonGuardarActionPerformed(evt);
+            }
+        });
+        menuTendas.add(botonGuardar);
+
+        botonCancelar.setText("Cancelar");
+        botonCancelar.setEnabled(false);
+        botonCancelar.setFocusable(false);
+        botonCancelar.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+        botonCancelar.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
+        botonCancelar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                botonCancelarActionPerformed(evt);
+            }
+        });
+        menuTendas.add(botonCancelar);
+
+        informeProductosButton.setText("Informe productos");
+        informeProductosButton.setFocusable(false);
+        informeProductosButton.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+        informeProductosButton.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
+        informeProductosButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                informeProductosButtonActionPerformed(evt);
+            }
+        });
+        menuTendas.add(informeProductosButton);
+
+        getContentPane().add(menuTendas, java.awt.BorderLayout.PAGE_START);
+
+        jPanel1.setLayout(new java.awt.BorderLayout());
+
+        tablaTendaProductos.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null}
+            },
+            new String [] {
+                "Title 1", "Title 2", "Title 3", "Title 4"
+            }
+        ));
+        jScrollPane1.setViewportView(tablaTendaProductos);
+
+        jPanel1.add(jScrollPane1, java.awt.BorderLayout.CENTER);
+
+        registrosTendas.setText("0 rexistros de tendas");
+        registrosTendas.setBorder(javax.swing.BorderFactory.createEmptyBorder(3, 3, 3, 3));
+        jPanel1.add(registrosTendas, java.awt.BorderLayout.PAGE_END);
+
+        datosTenda.setFont(new java.awt.Font("Ubuntu", 0, 18)); // NOI18N
+        datosTenda.setText("Tenda: ");
+        datosTenda.setBorder(javax.swing.BorderFactory.createEmptyBorder(4, 4, 4, 4));
+        jPanel1.add(datosTenda, java.awt.BorderLayout.PAGE_START);
+        jPanel1.add(detalle, java.awt.BorderLayout.LINE_END);
+
+        getContentPane().add(jPanel1, java.awt.BorderLayout.CENTER);
+
+        pack();
+    }// </editor-fold>//GEN-END:initComponents
+    
+    private TendaProducto getTendaProductoSeleccionado() throws ModelException {
+        Long id = (Long) tablaTendaProductos.getValueAt(tablaTendaProductos.getSelectedRow(), 0);
+        return manager.getTendaProductoDAO().obtener(id);
+    }
+    
+    //método edidar
+    private void botonEditarProductoTendaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botonEditarProductoTendaActionPerformed
+        try {
+            TendaProducto tendaProducto = getTendaProductoSeleccionado();
+            detalle.setTendaProducto(tendaProducto);
+            detalle.setTenda(tenda);
+            detalle.setEditable(true);
+            detalle.loadData(tenda);
+            botonGuardar.setEnabled(true);
+            botonCancelar.setEnabled(true);
+        } catch (ModelException ex) {
+            Logger.getLogger(ListTendasProductosFrame.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }//GEN-LAST:event_botonEditarProductoTendaActionPerformed
+
+    private void botonCancelarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botonCancelarActionPerformed
+        clean();
+    }//GEN-LAST:event_botonCancelarActionPerformed
+
+    private void botonCrearProdutoTendaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botonCrearProdutoTendaActionPerformed
+        detalle.setTendaProducto(null);
+        detalle.loadData(tenda);
+        detalle.setEditable(true);
+        botonGuardar.setEnabled(true);
+        botonCancelar.setEnabled(true);
+    }//GEN-LAST:event_botonCrearProdutoTendaActionPerformed
+
+    private void botonGuardarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botonGuardarActionPerformed
+        detalle.saveData();
+        TendaProducto tendaProducto = detalle.getTendaProducto();
+        try {
+            if(tendaProducto.getId() == null) {
+                manager.getTendaProductoDAO().insertar(tendaProducto);
+            } else {
+                manager.getTendaProductoDAO().modificar(tendaProducto);
+            }
+            clean();
+            obtenerDatos();
+            //actualiza la tabla
+            model.fireTableDataChanged();
+        } catch (ModelException ex) {
+            Logger.getLogger(ListTendasProductosFrame.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }//GEN-LAST:event_botonGuardarActionPerformed
+
+    private void botonEliminarProductoTendaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botonEliminarProductoTendaActionPerformed
+        if(JOptionPane.showConfirmDialog(rootPane, "Seguro que queres borralo producto da tenda?", 
+                "Borrar producto da tenda", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE) == JOptionPane.YES_OPTION) {
+            try {
+                TendaProducto tendaProducto = getTendaProductoSeleccionado();
+                manager.getTendaProductoDAO().eliminar(tendaProducto.getId());
+                obtenerDatos();
+                //actualiza la tabla
+                model.fireTableDataChanged();
+            } catch (ModelException ex) {
+                Logger.getLogger(ListTendasProductosFrame.class.getName()).log(Level.SEVERE, null, ex);
+            }
+            
+        }
+    }//GEN-LAST:event_botonEliminarProductoTendaActionPerformed
+
+    private void informeProductosButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_informeProductosButtonActionPerformed
+        try {
+                List<TendaProducto> tendaProductos = manager.getTendaProductoDAO().obtenerTodos(tenda);
+                List<Producto> productos = new ArrayList<>();
+                
+                tendaProductos.forEach(tendaProducto -> productos.add(tendaProducto.getProducto()));
+                
+                String nomeInforme = "InformeProductosTenda_" + tenda.getNome();
+                
+                FileUtils.writeFile(JsonUtils.toJson(productos), FileUtils.getFileName(nomeInforme, "json"));
+                
+            } catch (ModelException ex) {
+                Logger.getLogger(ListTendasProductosFrame.class.getName()).log(Level.SEVERE, null, ex);
+            }
+    }//GEN-LAST:event_informeProductosButtonActionPerformed
+    
+    private void clean() {
+        detalle.setTendaProducto(null);
+        detalle.setEditable(false);
+        detalle.loadData(tenda);
+        tablaTendaProductos.clearSelection();
+        botonGuardar.setEnabled(false);
+        botonCancelar.setEnabled(false);
+    }
+
+    // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton botonCancelar;
+    private javax.swing.JButton botonCrearProdutoTenda;
+    private javax.swing.JButton botonEditarProductoTenda;
+    private javax.swing.JButton botonEliminarProductoTenda;
+    private javax.swing.JButton botonGuardar;
+    private javax.swing.JLabel datosTenda;
+    private gal.san.clemente.tarefa_4_orm.view.tendas.tenda_productos.DetalleTendaProductoPanel detalle;
+    private javax.swing.JButton informeProductosButton;
+    private javax.swing.JPanel jPanel1;
+    private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JToolBar.Separator jSeparator1;
+    private javax.swing.JToolBar.Separator jSeparator2;
+    private javax.swing.JToolBar menuTendas;
+    private javax.swing.JLabel registrosTendas;
+    private javax.swing.JTable tablaTendaProductos;
+    // End of variables declaration//GEN-END:variables
+}

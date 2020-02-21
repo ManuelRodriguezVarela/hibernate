@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+SEMRPE NA CARPETA MET-INF, DEPENDENDO SI É EE O SE VARIA
+CONEXIÓN BBDD E HIBERNATE
+DEFINE O ARQUIVO DE PERSISTENCIA.
+TEN UNHA UNIDADE DE PERSISTENCIA É UN NOME QUE LOGO SE EMPREGARÁ PARA PEDIR
+A JPA PARA TRABAJAR CON ESTA UNIDADE DE PERSISTENCIA
+PROPERTIES É ONDE ESTÁN OS PARÁMETROS DE CONEXIÓNA Á BBDD
+-->
+<persistence xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+             xsi:schemaLocation="http://java.sun.com/xml/ns/persistence
+             http://java.sun.com/xml/ns/persistence/persistence_2_0.xsd"
+             version="2.0" xmlns="http://java.sun.com/xml/ns/persistence">
+
+  <persistence-unit name="aplicacion">
+    <!--Rrepresentación das clases -->
+    <class>gal.san.clemente.tarefa_4_orm.model.Cliente</class>
+    <properties>
+        <property name="javax.persistence.jdbc.driver" value="" />
+        <property name="javax.persistence.jdbc.url" value="" />
+        <property name="javax.persistence.jdbc.user" value="" />
+        <property name="javax.persistence.jdbc.password" value="" />
+        <property name="hibernate.dialect" value="" />
+        <property name="hibernate.hbm2ddl.auto" value="" />
+    </properties>
+  </persistence-unit>
+
+</persistence>
